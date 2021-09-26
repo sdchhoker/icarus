@@ -1,56 +1,44 @@
+const quickUnion = require('../../../utils/disjointSets/unionByRank');
+
 /**
  * Returns the lexicographically smallest string that s can be changed to after using the swaps.
  * @param s {string}
  * @param pairs {number[][]}
+ * @returns {string}
  */
 function smallestStringWithSwaps (s, pairs) {
-  let min = findCurrentValue(s);
-  let str = s;
-  while (true) {
-    let currSum = 0;
-    for (let i = 0; i < pairs.length; i++) {
+  const n = s.length;
+  const qU = quickUnion(n);
 
+  for (let i = 0; i < pairs.length; i++) {
+    qU.union(...pairs[i]);
+  }
+  const root = [];
+  for (let i = 0; i < n; i += 1) {
+    root[i] = qU.find(i);
+  }
+
+  const map = new Map();
+  for (let i = 0; i < n; i++) {
+    const currParent = root[i];
+    let str = map.get(currParent) || '';
+    str += s[i];
+    map.set(currParent, str);
+  }
+  const stringArr = [];
+  const keys = map.keys();
+
+  for (let key of keys) {
+    const str = map.get(key).split('').sort().join('');
+    let j = 0;
+    for(let i = 0; i < n; i += 1) {
+      if (root[i] === key) {
+        stringArr[i] = str[j];
+        j += 1;
+      }
     }
   }
+  return stringArr.join('');
 }
 
-/**
- * returns current value of str sum
- * @param str {string}
- * @returns {number}
- */
-function findCurrentValue(str) {
-  const valueMap = {
-    a: 1,
-    b: 2,
-    c: 3,
-    d: 4,
-    e: 5,
-    f: 6,
-    g: 7,
-    h: 8,
-    i: 9,
-    j: 10,
-    k: 11,
-    l: 12,
-    m: 13,
-    n: 14,
-    o: 15,
-    p: 16,
-    q: 17,
-    r: 18,
-    s: 19,
-    t: 20,
-    u: 21,
-    v: 22,
-    w: 23,
-    x: 24,
-    y: 25,
-    z: 26
-  };
-  let sum = 0;
-  for (let i = 0; i < str.length; i++) {
-    sum += str[i];
-  }
-  return sum;
-}
+module.exports = smallestStringWithSwaps;

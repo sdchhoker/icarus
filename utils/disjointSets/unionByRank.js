@@ -30,6 +30,7 @@ function quickUnion(size) {
    * connects two node if not already connected
    * @param x {number}
    * @param y {number}
+   * @returns {void}
    */
   function union(x, y) {
     const rootX = find(x);
