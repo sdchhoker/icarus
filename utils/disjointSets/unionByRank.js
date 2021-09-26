@@ -45,6 +45,7 @@ function quickUnion(size) {
         root[rootY] = rootX;
         rank[rootX ] += 1;
       }
+      // two sub graphs are connected
       count -= 1;
     } else {
       //cycle detected

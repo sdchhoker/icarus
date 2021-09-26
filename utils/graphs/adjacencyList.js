@@ -17,15 +17,15 @@ class Edge {
 
 /**
  * builds graph using adjacenecy list
- * @return {{list: Map, addEdge: addEdge}}
+ * @return {{list: Map, addEdge: (function(*, *, number, boolean): *) }}
  */
 function adjacencyList() {
   const list = new Map();
 
   /**
    * adds an edge between two node and adds nodes if they do not exist
-   * @param from {any}
-   * @param to {any}
+   * @param from {*}
+   * @param to {*}
    * @param weight {number}
    * @param directed {boolean}
    */

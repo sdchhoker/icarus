@@ -14,13 +14,14 @@ function calcEquation(equations, values, queries) {
 
   for (let i = 0; i < values.length; i++) {
     const edge = equations[i];
-    graph.addEdge(edge[0], edge[1], values[i]);
-    graph.addEdge(edge[1], edge[0], 1 / values[i]);
+    graph.addEdge(edge[0], edge[1], values[i], true);
+    graph.addEdge(edge[1], edge[0], 1 / values[i], true);
   }
 
   for (let i = 0; i < queries.length; i++) {
-    const query = queries[i];
-    arr.push(buildShortestPathBFS(query[0], query[1], graph.list));
+    const [dividend, divisor] = queries[i];
+    if (graph.list.get(divisor) === undefined || graph.list.get(dividend) === undefined) arr.push(-1);
+    else arr.push(buildShortestPathBFS(dividend, divisor, graph.list));
   }
 
   return arr;

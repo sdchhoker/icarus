@@ -1,16 +1,16 @@
 /**
  * builds a queue with factory function
- * @returns {{enqueue: enqueue, size: (function()), dequeue: (function(): *), isEmpty: (function(): boolean), peak: (function(): *)}}
+ * @returns {{enqueue: (function(*): *), size: (function()), dequeue: (function(): *), isEmpty: (function(): boolean), peak: (function(): *)}}
  * @constructor
  */
-function BuildQueue() {
+function buildQueue() {
   const arr = [];
   let tail = 0;
   let head = 0;
 
   /**
    * adds data to queue
-   * @param data
+   * @param data {*}
    */
   function enqueue(data) {
     arr.push(data);
@@ -60,4 +60,4 @@ function BuildQueue() {
   };
 }
 
-module.exports = BuildQueue;
+module.exports = buildQueue;
