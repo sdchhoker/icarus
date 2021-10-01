@@ -1,3 +1,5 @@
+const buildMinHeap = require('../../../utils/minHeap');
+
 class Edge {
   /**
    * create an edge between two nodes
@@ -13,9 +15,9 @@ class Edge {
 }
 
 /**
- *
+ *build a graph
  * @param size
- * @returns {{list: *[][], addEdge: addEdge}}
+ * @returns {{list: Edge[][], addEdge: (function(to: number, from: number, weight: number, directed: boolean))}}
  */
 function buildAdjacencyList(size) {
   const list = Array(size + 1).fill(null).map(() => []);
@@ -25,6 +27,8 @@ function buildAdjacencyList(size) {
    * @param to {number}
    * @param from {number}
    * @param weight {number}
+   * @param directed {boolean}
+   * @returns {void}
    */
   function addEdge(to, from, weight, directed) {
     list[from].push(new Edge(to, from, weight));
@@ -33,9 +37,9 @@ function buildAdjacencyList(size) {
   }
 
   return {
-    addEdge,
     list,
-  }
+    addEdge
+  };
 }
 
 /**
@@ -53,24 +57,25 @@ function minCostToSupplyWater(n, wells, pipes) {
   for (let i = 0; i < pipes.length; i++) {
     graph.addEdge(...pipes[i], false);
   }
-
   const cost = [...wells];
-  const stack = [];
-  for (let i = 1; i < n + 1; i++) {
-    stack.push(i);
+  const heap = buildMinHeap();
+  for (let i = 0; i < n; i++) {
+    heap.add(i+1, wells[i]);
   }
-
   const list = graph.list;
-
-  while (stack.length > 0) {
-    const curr = stack.pop();
+  const set = new Set();
+  while (set.size < n) {
+    const currVal = heap.poll();
+    const curr = currVal.key;
+    set.add(curr);
     const neighbours = list[curr];
     for (let i = 0; i < neighbours.length; i++) {
       const edge = neighbours[i];
-      const newCost = edge.weight;
-      if (newCost < cost[edge.to]) {
-        cost[edge.to] = newCost;
-        stack.push(edge.to);
+      if (!set.has(edge.to)) {
+        if (cost[edge.to - 1] > edge.weight) {
+          cost[edge.to - 1] = edge.weight;
+          heap.add(edge.to, edge.weight);
+        }
       }
     }
   }
@@ -78,7 +83,7 @@ function minCostToSupplyWater(n, wells, pipes) {
   for (let i = 0; i < n; i++) {
     sum += cost[i];
   }
-  return sum
+  return sum;
 }
 
 module.exports = minCostToSupplyWater;

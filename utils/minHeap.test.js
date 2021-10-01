@@ -8,10 +8,11 @@ test('test min heap', () => {
   heap.add(3, 4);
   heap.add(4, 1);
   heap.add(5, -1);
-  expect(heap.poll()).toBe(-1);
-  expect(heap.poll()).toBe(0);
-  expect(heap.poll()).toBe(1);
-  expect(heap.poll()).toBe(1);
-  expect(heap.poll()).toBe(3);
-  expect(heap.poll()).toBe(4);
+  expect(heap.getSize).toBe(6);
+  expect(heap.poll()).toEqual({key: 5, value: -1});
+  expect(heap.poll()).toEqual({key: 1, value: 0});
+  expect(heap.poll()).toEqual({key: 4, value: 1});
+  expect(heap.poll()).toEqual({key: 0, value: 1});
+  expect(heap.poll()).toEqual({key: 2, value: 3});
+  expect(heap.poll()).toEqual({key: 3, value: 4});
 });

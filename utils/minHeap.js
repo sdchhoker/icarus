@@ -1,78 +1,95 @@
+/**
+ *
+ * @return {{add: (function(key: *, value: *)), getSize: (function(): number), poll: ((function(): ({key: *, value: *}|null))|*)}}
+ */
 function buildMinHeap() {
-  const map = new Map();
-  const queue = [];
-  let size = 0
+  const list = [];
 
   /**
-   * returns if a key is present or not
-   * @param key
-   * @returns {boolean}
+   * removes top value from heap
+   * @returns {{key: *, value: *} | null}
    */
-  function peek(key) {
-    return map.has(key);
-  }
-
   function poll() {
-    const data = queue[0];
-    let key = queue.pop();
-    map.delete(key);
-    queue[0] = key;
-    map.set(key, 0);
-    let position = 0;
-    while (true) {
-      const left = 2 * position + 1;
-      if (left >= size) break;
-      const right = 2 * position + 2;
-      const leftKey = queue[left];
-      const rightKey = queue[right];
-      let smallest = left;
-      let smallestKey = leftKey
-      if (right < size && map.get(leftKey) > map.get(rightKey)) {
-        smallest = right;
-        smallestKey = rightKey;
-      }
-
-      if (map.get(key) < map.get(smallest)) break;
-      swap(smallestKey, key, smallest, position);
-      key = smallestKey;
-      position = smallest;
-    }
+    if (list.length === 0) return null
+    const data = list[0];
+    list[0] = list.pop();
+    sink(0);
     return data;
   }
 
-  function swap(key1, key2, pos1, pos2) {
-    const val1 = map.get(key1);
-    const val2 = map.get(key2);
+  /**
+   * bubbles down a value
+   * @param parent {number}
+   */
+  function sink(parent) {
+    const left = 2 * parent + 1;
+    if (left >= list.length) return;
+    const right = 2 * parent + 2;
+    let smallest = left;
+    const leftVal = list[left];
+    let smallestVal = leftVal;
+    const rightVal = list[right];
 
-    map.set(key1, val2);
-    map.set(key2, val1);
-
-    queue[pos1] = key2;
-    queue[pos2] = key1;
+    if (right < list.length && leftVal.value > rightVal.value) {
+      smallest = right;
+      smallestVal = rightVal;
+    }
+    if (smallestVal.value < list[parent].value) {
+      swap(parent, smallest);
+      sink(smallest);
+    }
   }
 
-  function add(key, value) {
-    queue.push(value);
-    let position = queue.length - 1;
-    let currKey = key;
-    map.set(key, value);
-    let parentPosition = Math.floor((position - 1) / 2);
-    let parentKey = queue[parentPosition];
+  /**
+   * swaps two keys in an array
+   * @param key1 {number}
+   * @param key2 {number}
+   */
+  function swap(key1, key2) {
+    const temp = list[key1];
+    list[key1] = list[key2];
+    list[key2] = temp;
+  }
 
-    while (parentPosition >= 0 && map.get(parentKey) > map.get(currKey)) {
-      swap(parentKey, currKey, parentPosition, position);
-      position = parentPosition;
-      currKey = parentKey;
-      parentPosition = Math.floor((position - 1) / 2);
-      parentKey = queue[parentPosition];
+  /**
+   * adds value to heap
+   * @param key {*}
+   * @param value {*}
+   * @returns {void}
+   */
+  function add(key, value) {
+    list.push({key, value});
+    swim(list.length - 1);
+  }
+
+  /**
+   * bubble up a value
+   * @param child {number}
+   */
+
+  function swim(child) {
+    const parent = Math.floor((child - 1) / 2);
+    if (parent < 0 ) return;
+    const childVal = list[child];
+    const parentVal = list[parent];
+    if (parentVal.value > childVal.value) {
+      swap(parent, child);
+      swim(parent);
     }
-    size += 1;
+  }
+
+  /**
+   * returns size of heap
+   * @returns {number}
+   */
+  function getSize() {
+    return list.length;
   }
 
   return {
-    peek,
+    add,
     poll,
-    add
+    getSize
   }
 }
 
