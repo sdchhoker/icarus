@@ -1,7 +1,3 @@
-/**
- *
- * @return {{add: (function(key: *, value: *)), getSize: (function(): number), poll: ((function(): ({key: *, value: *}|null))|*)}}
- */
 function buildMinHeap() {
   const list = [];
 
@@ -53,8 +49,8 @@ function buildMinHeap() {
 
   /**
    * adds value to heap
-   * @param key {*}
-   * @param value {*}
+   * @param {*} key
+   * @param {*} value
    * @returns {void}
    */
   function add(key, value) {
@@ -85,7 +81,6 @@ function buildMinHeap() {
   function getSize() {
     return list.length;
   }
-
   return {
     add,
     poll,

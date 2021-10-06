@@ -15,11 +15,11 @@ class Edge {
   }
 }
 
-/**
- * builds graph using adjacenecy list
- * @return {{list: Map, addEdge: (function(from: *, to: *, weight: number, directed: boolean)) }}
- */
 function adjacencyList() {
+  /**
+   *
+   * @type {Map<any, any>}
+   */
   const list = new Map();
 
   /**
@@ -28,6 +28,7 @@ function adjacencyList() {
    * @param to {*}
    * @param weight {number}
    * @param directed {boolean}
+   * @returns {void}
    */
   function addEdge(from, to, weight = 0, directed = true) {
     const neighbours = list.get(from) || [];
