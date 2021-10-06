@@ -17,7 +17,7 @@ class Edge {
 
 /**
  * builds graph using adjacenecy list
- * @return {{list: Map, addEdge: (function(*, *, number, boolean): *) }}
+ * @return {{list: Map, addEdge: (function(from: *, to: *, weight: number, directed: boolean)) }}
  */
 function adjacencyList() {
   const list = new Map();
