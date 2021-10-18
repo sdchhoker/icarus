@@ -1,8 +1,3 @@
-/**
- * builds a queue with factory function
- * @returns {{enqueue: (function(*): *), size: (function()), dequeue: (function(): *), isEmpty: (function(): boolean), peak: (function(): *)}}
- * @constructor
- */
 function buildQueue() {
   const arr = [];
   let tail = 0;

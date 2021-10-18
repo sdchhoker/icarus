@@ -18,7 +18,7 @@ class Edge {
 function adjacencyList() {
   /**
    *
-   * @type {Map<any, any>}
+   * @type {Map<any, Edge[]>}
    */
   const list = new Map();
 
