@@ -1,6 +1,13 @@
 const buildQueue = require('../../../utils/queue');
 
-// Definition for a Node.
+/**
+ *
+ * @param val {number}
+ * @param left {Node}
+ * @param right {Node}
+ * @param next {Node}
+ * @constructor
+ */
 function Node(val, left, right, next) {
   this.val = val === undefined ? null : val;
   this.left = left === undefined ? null : left;
