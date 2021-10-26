@@ -8,7 +8,9 @@ function buildMinHeap() {
   function poll() {
     if (list.length === 0) return null
     const data = list[0];
-    list[0] = list.pop();
+    const last = list.pop();
+    if (list.length === 0) return data;
+    list[0] = last;
     sink(0);
     return data;
   }
