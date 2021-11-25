@@ -9,5 +9,5 @@ test('test case 2', () => {
 });
 
 test('test case 3', () => {
-  expect(removeInvalidParentheses('(a)())()')).toEqual(["(a())()", "(a)()()"]);
+  expect(removeInvalidParentheses('(a)())()')).toEqual(["(a)()()", "(a())()"]);
 });
