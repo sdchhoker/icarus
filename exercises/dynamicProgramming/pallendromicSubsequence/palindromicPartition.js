@@ -45,9 +45,9 @@ const findMPPCuts = function (str) {
 // 	return dp[l][r];
 // }
 
-// function isPalindromic(l, r, str) {
-// 	return str.substr(l, r + 1) === str.substr(l, r + 1).split('').reverse().join('');
-// }
+function isPalindromic(l, r, str) {
+	return str.substr(l, r + 1) === str.substr(l, r + 1).split('').reverse().join('');
+}
 
 console.log(`Minimum palindrome partitions ---> ${findMPPCuts('abdbca')}`);
 console.log(`Minimum palindrome partitions ---> ${findMPPCuts('cdpdd')}`);
